@@ -1,10 +1,10 @@
 package com.deepak.controller;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +19,17 @@ public class UserController {
 	@GetMapping("/users")
 	public List<User> getUsers() {
 		return users;
+	}
+	
+	
+	@GetMapping("/users/{userId}")
+	public User getUserById(@PathVariable("userId") Integer id) {
+		for(User u : users) {
+			if(u.getId() == id) {
+				return u;
+			}
+		}
+		return null;
 	}
 	
 	@PostMapping("/users/signup")
@@ -45,5 +56,15 @@ public class UserController {
 		
 		return newUser;
 	}
+	
+	/*
+	 {
+    "id": 1,
+    "firstName": "Deepak",
+    "lastName": "Chourasiya",
+    "email": "deepak@gmail.com",
+    "password": "deepu1234"
+    }
+	 */
 
 }
