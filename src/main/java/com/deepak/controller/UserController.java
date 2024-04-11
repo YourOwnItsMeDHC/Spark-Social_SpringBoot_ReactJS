@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -66,5 +68,30 @@ public class UserController {
     "password": "deepu1234"
     }
 	 */
+	
+	
+	
+	@PutMapping("users")
+	public User updateUser(@RequestBody User user) {
+		for(User u : users) {
+			if(u.getId() == user.getId()) {
+				if(u.getFirstName() != null) {
+					u.setFirstName(user.getFirstName());
+				}
+				else if(u.getLastName() != null) {
+					u.setLastName(user.getLastName());
+				}
+				else if(u.getEmail() != null) {
+					u.setEmail(user.getEmail());
+				}
+				else if(u.getPassword() != null) {
+					u.setPassword(user.getPassword());
+				}
+				
+				return u;
+			}
+		}
+		return null;
+	}
 
 }
