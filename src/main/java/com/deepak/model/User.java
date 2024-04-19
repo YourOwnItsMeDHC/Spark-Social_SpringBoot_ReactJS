@@ -18,6 +18,7 @@ public class User {
 	private String lastName;
 	private String email;
 	private String password;
+	private String gender;
 	
 	private Set<Integer> followings;
 	private Set<Integer> followers;
@@ -26,20 +27,19 @@ public class User {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	public User(Integer id, String firstName, String lastName, String email, String password, Set<Integer> followings,
-			Set<Integer> followers) {
+
+	public User(Integer id, String firstName, String lastName, String email, String password, String gender,
+			Set<Integer> followings, Set<Integer> followers) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
+		this.gender = gender;
 		this.followings = followings;
 		this.followers = followers;
 	}
-
-
 
 	public String getFirstName() {
 		return firstName;
@@ -74,7 +74,12 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 	public Set<Integer> getFollowings() {
 		return followings;
 	}
