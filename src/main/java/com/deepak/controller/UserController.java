@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.deepak.model.User;
 import com.deepak.repository.UserRepository;
+import com.deepak.service.UserService;
 
 @RestController
 public class UserController {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private UserService userService;
 
 	@GetMapping("/users")
 	public List<User> getUsers() {
@@ -29,27 +33,15 @@ public class UserController {
 
 	@GetMapping("/users/{userId}")
 	public User getUserById(@PathVariable("userId") Integer id) throws Exception {
-		Optional<User> user = userRepository.findById(id);
-
-		if (user.isPresent()) {
-			return user.get();
-		}
-
-		throw new Exception("User not exists with an id : " + id);
+		User user = userService.findUserById(id);
+		return user;
 	}
 
 	@PostMapping("/users/signup")
 	public User createUser(@RequestBody User user) {
-		User newUser = new User();
-		newUser.setId(user.getId());
-		newUser.setFirstName(user.getFirstName());
-		newUser.setLastName(user.getLastName());
-		newUser.setEmail(user.getEmail());
-		newUser.setPassword(user.getPassword());
-
-		userRepository.save(newUser);
-
+		User newUser = userService.registerUser(user);
 		return newUser;
+		
 	}
 
 	/*

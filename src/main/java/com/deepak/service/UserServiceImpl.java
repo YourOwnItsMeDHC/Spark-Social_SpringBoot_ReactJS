@@ -1,6 +1,7 @@
 package com.deepak.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,9 +28,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findUserById(Integer userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public User findUserById(Integer userId) throws Exception {
+		Optional<User> user = userRepository.findById(userId);
+
+		if (user.isPresent()) {
+			return user.get();
+		}
+
+		throw new Exception("User not exists with an id : " + userId);
 	}
 
 	@Override
