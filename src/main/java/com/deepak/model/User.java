@@ -2,6 +2,8 @@ package com.deepak.model;
 
 
 
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -17,24 +19,31 @@ public class User {
 	private String email;
 	private String password;
 	
+	private Set<Integer> followings;
+	private Set<Integer> followers;
+	
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public User(Integer id, String firstName, String lastName, String email, String password) {
+	public User(Integer id, String firstName, String lastName, String email, String password, Set<Integer> followings,
+			Set<Integer> followers) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
+		this.followings = followings;
+		this.followers = followers;
 	}
 
+
+
+	public String getFirstName() {
+		return firstName;
+	}
 	
 	public Integer getId() {
 		return id;
@@ -65,5 +74,22 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public Set<Integer> getFollowings() {
+		return followings;
+	}
+
+	public void setFollowings(Set<Integer> followings) {
+		this.followings = followings;
+	}
+
+	public Set<Integer> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(Set<Integer> followers) {
+		this.followers = followers;
+	}
+	
 	
 }
