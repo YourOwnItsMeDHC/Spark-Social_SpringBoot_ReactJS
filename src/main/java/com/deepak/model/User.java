@@ -2,7 +2,8 @@ package com.deepak.model;
 
 
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -20,16 +21,17 @@ public class User {
 	private String password;
 	private String gender;
 	
-	private Set<Integer> followings;
-	private Set<Integer> followers;
+	private List<Integer> followings = new ArrayList<>();
+	private List<Integer> followers = new ArrayList<>();
 	
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
+	
 	public User(Integer id, String firstName, String lastName, String email, String password, String gender,
-			Set<Integer> followings, Set<Integer> followers) {
+			List<Integer> followings, List<Integer> followers) {
 		super();
 		this.id = id;
 		this.firstName = firstName;
@@ -40,6 +42,7 @@ public class User {
 		this.followings = followings;
 		this.followers = followers;
 	}
+
 
 	public String getFirstName() {
 		return firstName;
@@ -80,21 +83,24 @@ public class User {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public Set<Integer> getFollowings() {
+
+
+	public List<Integer> getFollowings() {
 		return followings;
 	}
 
-	public void setFollowings(Set<Integer> followings) {
+
+	public void setFollowings(List<Integer> followings) {
 		this.followings = followings;
 	}
 
-	public Set<Integer> getFollowers() {
+
+	public List<Integer> getFollowers() {
 		return followers;
 	}
 
-	public void setFollowers(Set<Integer> followers) {
+
+	public void setFollowers(List<Integer> followers) {
 		this.followers = followers;
-	}
-	
-	
+	}	
 }

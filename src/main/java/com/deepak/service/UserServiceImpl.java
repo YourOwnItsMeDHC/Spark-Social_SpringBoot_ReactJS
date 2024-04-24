@@ -4,15 +4,17 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.deepak.model.User;
 import com.deepak.repository.UserRepository;
 
+@Service
 public class UserServiceImpl implements UserService {
-	
+
 	@Autowired
 	private UserRepository userRepository;
-
+	
 	@Override
 	public User registerUser(User user) {
 		User newUser = new User();
@@ -21,6 +23,7 @@ public class UserServiceImpl implements UserService {
 		newUser.setLastName(user.getLastName());
 		newUser.setEmail(user.getEmail());
 		newUser.setPassword(user.getPassword());
+		newUser.setGender(user.getGender());
 
 		userRepository.save(newUser);
 
@@ -45,21 +48,62 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User followUser(Integer user1, Integer user2) {
-		// TODO Auto-generated method stub
-		return null;
+	public User followUser(Integer userId1, Integer userId2) throws Exception {
+//		userId1 wants to follow userId2
+		User user1 = findUserById(userId1);
+		User user2 = findUserById(userId2);
+
+		user1.getFollowings().add(userId2);
+		user2.getFollowers().add(userId1);
+
+		userRepository.save(user1);
+		userRepository.save(user2);
+
+		return user1;
 	}
 
 	@Override
-	public User updateUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public User unFollowUser(Integer userId1, Integer userId2) throws Exception {
+//		userId1 wants to unfollow userId2
+		User user1 = findUserById(userId1);
+		User user2 = findUserById(userId2);
+
+		user1.getFollowings().remove(userId2);
+		user2.getFollowers().remove(userId1);
+
+		userRepository.delete(user1);
+		userRepository.delete(user2);
+
+		return user1;
+	}
+
+	@Override
+	public User updateUser(User user, Integer userId) throws Exception {
+		Optional<User> oldUser = userRepository.findById(userId);
+
+		if (oldUser.isEmpty()) {
+			throw new Exception("User not exists with an id : " + userId);
+		}
+
+		if (user.getFirstName() != null) {
+			oldUser.get().setFirstName(user.getFirstName());
+		} else if (user.getLastName() != null) {
+			oldUser.get().setLastName(user.getLastName());
+		} else if (user.getEmail() != null) {
+			oldUser.get().setEmail(user.getEmail());
+		} else if (user.getPassword() != null) {
+			oldUser.get().setPassword(user.getPassword());
+		}
+
+		userRepository.save(oldUser.get());
+
+		return oldUser.get();
 	}
 
 	@Override
 	public List<User> searchUser(String query) {
-		// TODO Auto-generated method stub
-		return null;
+		List<User> users = userRepository.searchUser(query);
+		return users;
 	}
 
 }

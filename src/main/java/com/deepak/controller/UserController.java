@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.deepak.model.User;
@@ -51,28 +52,8 @@ public class UserController {
 
 	@PutMapping("users/{userId}")
 	public User updateUser(@PathVariable("userId") Integer id , @RequestBody User user) throws Exception {
-		Optional<User> oldUser = userRepository.findById(id);
-		
-		if(oldUser.isEmpty()) {
-			throw new Exception("User not exists with an id : " + id);
-		}
-		
-		if(user.getFirstName() != null) {
-			oldUser.get().setFirstName(user.getFirstName());
-		}
-		else if(user.getLastName() != null) {
-			oldUser.get().setLastName(user.getLastName());
-		}
-		else if(user.getEmail() != null) {
-			oldUser.get().setEmail(user.getEmail());
-		}
-		else if(user.getPassword() != null) {
-			oldUser.get().setPassword(user.getPassword());
-		}
-		
-		userRepository.save(oldUser.get());
-		
-		return oldUser.get();
+		User updatedUser = userService.updateUser(user, id);
+		return updatedUser;
 	}
 
 	@DeleteMapping("/users/{userId}")
@@ -86,6 +67,18 @@ public class UserController {
 		userRepository.delete(user.get());
 		
 		return "User deleted successfully with an id : " + id;
+	}
+	
+	@PutMapping("users/follow/{userId1}/{userId2}")
+	public User followUserHandler(@PathVariable("userId1") Integer userId1, @PathVariable("userId2") Integer userId2) throws Exception {
+		User user = userService.followUser(userId1, userId2);
+		return user;
+	}
+	
+	@GetMapping("users/search")
+	public List<User> searchUser(@RequestParam("query") String query) {
+		List<User> users = userService.searchUser(query);
+		return users;
 	}
 
 }
