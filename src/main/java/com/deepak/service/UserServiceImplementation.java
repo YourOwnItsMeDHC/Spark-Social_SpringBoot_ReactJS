@@ -10,7 +10,7 @@ import com.deepak.model.User;
 import com.deepak.repository.UserRepository;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImplementation implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
@@ -53,8 +53,14 @@ public class UserServiceImpl implements UserService {
 		User user1 = findUserById(userId1);
 		User user2 = findUserById(userId2);
 
-		user1.getFollowings().add(userId2);
-		user2.getFollowers().add(userId1);
+		if(user1.getFollowings().contains(user2.getId())) {
+			user1.getFollowings().remove(userId2);
+			user2.getFollowers().remove(userId1);
+		}
+		else {
+			user1.getFollowings().add(userId2);
+			user2.getFollowers().add(userId1);
+		}
 
 		userRepository.save(user1);
 		userRepository.save(user2);
