@@ -71,9 +71,18 @@ public class PostServiceImplementation implements PostService {
 	}
 
 	@Override
-	public Post savedPost(Integer postId, Integer userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Post savedPost(Integer postId, Integer userId) throws Exception {
+		Post post = findPostById(postId);
+		User user = userService.findUserById(userId);
+		
+		if(user.getSavedPost().contains(post)) {
+			user.getSavedPost().remove(post);
+		}
+		else user.getSavedPost().add(post);
+		
+		userRepository.save(user);
+		
+		return post;
 	}
 
 	@Override
