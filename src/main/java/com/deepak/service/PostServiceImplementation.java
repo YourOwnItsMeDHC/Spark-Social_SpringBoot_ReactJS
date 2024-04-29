@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.deepak.model.Post;
 import com.deepak.model.User;
 import com.deepak.repository.PostRepository;
 import com.deepak.repository.UserRepository;
 
+@Service
 public class PostServiceImplementation implements PostService {
 	
 	@Autowired

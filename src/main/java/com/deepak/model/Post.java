@@ -8,8 +8,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name="post")
 public class Post {
 	
 	@Id
@@ -23,10 +27,12 @@ public class Post {
 	
 	private String video;
 	
+	@ManyToOne
 	private User user;
 	
 	private LocalDateTime createdAt;
 	
+	@OneToMany
 	private List<User> liked = new ArrayList<>();
 
 	public Integer getId() {
@@ -101,6 +107,21 @@ public class Post {
 		this.createdAt = createdAt;
 		this.liked = liked;
 	}
-	
-	
 }
+
+
+
+/*
+    CREATE TABLE post (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    caption VARCHAR(255),
+    image VARCHAR(255),
+    video VARCHAR(255),
+    user_id INT,
+    created_at DATETIME,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+ */
+
+
+
